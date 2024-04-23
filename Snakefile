@@ -13,12 +13,12 @@ configfile: str(BASE_DIR) + "/config/config.yaml"
 OUTPUT = config['output_path']
 
 # load the basecalls
-pod5_paths = os.path.abspath(config['pod5_paths'])
-pod5_df = utils.load_pod5_df(pod5_paths, OUTPUT)
-cell_ids = pod5_df['cell_id'].to_list() # wildcard constraints
+fastq_paths = os.path.abspath(config['fastq_paths'])
+fastq_df = utils.load_fastq_df(fastq_paths, OUTPUT)
+cell_ids = fastq_df['cell_id'].to_list() # wildcard constraints
 
 print(f"\n======== INPUT FILES ========")
-print(tabulate(pod5_df[['cell_id', 'basename']], 
+print(tabulate(fastq_df[['cell_id', 'basename']], 
       headers='keys',
       showindex=False,
       tablefmt='psql'))
@@ -26,98 +26,27 @@ print(tabulate(pod5_df[['cell_id', 'basename']],
 ################ ALL RULES ################
 rule all:
     input:
-        expand(f"{OUTPUT}pod5/{{cid}}.pod5", cid=cell_ids),
-        expand(f"{OUTPUT}fast5/{{cid}}.fast5", cid=cell_ids),
         expand(f"{OUTPUT}fastq/{{cid}}.raw.fastq", cid=cell_ids),
         OUTPUT + "reports/seqkit.report.txt",
-        OUTPUT + "reports/mutliqc/fastqc.html",
-        OUTPUT + "reports/seqkit.porechop.report.txt",
-        expand(f"{OUTPUT}quality_summary/{{cid}}.quality_summary.parquet", cid=cell_ids),
-        expand(f"{OUTPUT}base_qualities/{{cid}}.base_qualities.parquet", cid=cell_ids),
-        expand(f"{OUTPUT}fastqc/{{cid}}.raw_fastqc.html", cid=cell_ids),
-        expand(f"{OUTPUT}porechop/{{cid}}.raw.fastq", cid=cell_ids),
-        expand(f"{OUTPUT}reports/porechop_summary/{{cid}}.porechop_summary.txt", cid=cell_ids),
-
-
-rule archive:
-    input:
-        expand(f"{OUTPUT}fastq/{{cid}}.raw.fastq.index", cid=cell_ids),
-        expand(f"{OUTPUT}signal_tables/{{cid}}.raw_signal.parquet", cid=cell_ids),
-        # expand(f"{OUTPUT}quality_summary_porechop/{{cid}}.quality_summary.parquet", cid=cell_ids),
-        # expand(f"{OUTPUT}base_qualities_porechop/{{cid}}.base_qualities.parquet", cid=cell_ids),
-        # OUTPUT + "resources/barcodes.fasta",
-        # OUTPUT + "reports/mutliqc/porechop.html", 
-    
+        # OUTPUT + "reports/mutliqc/fastqc.html",
+        # OUTPUT + "reports/seqkit.porechop.report.txt",
+        # expand(f"{OUTPUT}fastqc/{{cid}}.raw_fastqc.html", cid=cell_ids),
+        # expand(f"{OUTPUT}porechop/{{cid}}.raw.fastq", cid=cell_ids),
+        # expand(f"{OUTPUT}reports/porechop_summary/{{cid}}.porechop_summary.txt", cid=cell_ids),
+        # expand(f"{OUTPUT}quality_summary/{{cid}}.quality_summary.parquet", cid=cell_ids),
 
 
 rule copy_pod5:
     input:
-        pod5_df['file_path'].to_list()
+        fastq_df['file_path'].to_list()
     output:
-        protected(pod5_df['out_path'].to_list()),
+        protected(fastq_df['out_path'].to_list()),
     run:
         from shutil import copyfile
         for i, fpath in enumerate(input):
     
             outPath = output[i]
             copyfile(fpath, outPath)
-
-
-rule get_raw_signals:
-    input:
-        OUTPUT + "pod5/{cid}.pod5"
-    output:
-        OUTPUT + "signal_tables/{cid}.raw_signal.parquet"
-    wildcard_constraints:
-        cid='|'.join([re.escape(x) for x in set(cell_ids)]),
-    shell:
-        """python scripts/get_raw_signal_table.py {input} {output}"""
-
-
-rule make_fast5:
-    input:
-        OUTPUT + "pod5/{cid}.pod5"
-    output:
-        directory=directory(OUTPUT + "fast5/{cid}.fast5"),
-        flag=touch(OUTPUT + "flags/{cid}.merge.done"),
-    wildcard_constraints:
-        cid='|'.join([re.escape(x) for x in set(cell_ids)]),
-    threads:
-        config['threads'] // 4
-    shell:
-        """pod5 convert to_fast5 {input} \
-        -t {threads} \
-        --output {output.directory}"""
-
-
-rule basecall:
-    input:
-        pod5=OUTPUT + "pod5/{cid}.pod5",
-        flag=OUTPUT + "flags/{cid}.merge.done",
-    output:
-        protected(OUTPUT + "fastq/{cid}.raw.fastq")
-    wildcard_constraints:
-        cid='|'.join([re.escape(x) for x in set(cell_ids)]),
-    params:
-        dorado=config['dorado_path'],
-        model=config['dorado_model'],
-        qscore=config['dorado_min_qscore'],
-    shell:
-        """{params.dorado} basecaller {params.model} --emit-fastq --min-qscore {params.qscore} --no-trim {input.pod5} > {output}"""
-
-
-rule f5c_index:
-    input:
-        fastq=OUTPUT + "fastq/{cid}.raw.fastq",
-        fast5=OUTPUT + "fast5/{cid}.fast5",
-    output:
-        OUTPUT + "fastq/{cid}.raw.fastq.index",
-    wildcard_constraints:
-        cid='|'.join([re.escape(x) for x in set(cell_ids)]),
-    threads:
-        config['threads'] // 2
-    shell:
-        """f5c index -t {threads} --iop 10 -d {input.fast5} {input.fastq}"""
 
 
 rule get_barcode_file:
@@ -138,22 +67,6 @@ rule get_barcode_fasta:
         """python scripts/barcode_fasta.py {input} {output}"""
 
 
-#rule locate_barcodes:
-#    input:
-#        fastq=OUTPUT + "fastq/{cid}.raw.fastq",
-#        codes=OUTPUT + "resources/barcodes.fasta"
-#    output:
-#        OUTPUT + 'barcode_locations/{cid}.csv'
-#    wildcard_constraints:
-#        cid='|'.join([re.escape(x) for x in set(cell_ids)]),
-#    threads:
-#        config['threads'] // 4
-#    params:
-#        m=config['n_mismatches']
-#    shell:
-#        """seqkit locate -m {params.m} -f {input.codes} {input.fastq} -j {threads} > {output} """
-
-
 rule porechop:
     input:
         OUTPUT + "fastq/{cid}.raw.fastq",
@@ -164,7 +77,6 @@ rule porechop:
         config['threads'] // 2
     shell:
         """porechop -i {input} -t {threads} -v 3 -o {output.fastq} > {output.stats}"""
-
 
 
 rule porechop_multiqc:

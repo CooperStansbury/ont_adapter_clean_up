@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH --account=indikar99
-#SBATCH --partition=standard
+#SBATCH --partition=standard,largemem
 #SBATCH --mail-user=cstansbu@umich.edu
 #SBATCH --mail-type=END,FAIL
 #SBATCH --nodes=1

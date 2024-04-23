@@ -1,0 +1,2 @@
+cell_id,file_path
+o1b01,/nfs/turbo/umms-indikar/shared/projects/poreC/data/raw_sequencing_files/scPC96o1/merged_pod5/barcode01.pod5
