@@ -26,17 +26,16 @@ print(tabulate(fastq_df[['cell_id', 'basename']],
 ################ ALL RULES ################
 rule all:
     input:
-        expand(f"{OUTPUT}fastq/{{cid}}.raw.fastq", cid=cell_ids),
+        expand(OUTPUT + "fastq/{cid}.raw.fastq", cid=cell_ids),
         OUTPUT + "reports/seqkit.report.txt",
-        # OUTPUT + "reports/mutliqc/fastqc.html",
-        # OUTPUT + "reports/seqkit.porechop.report.txt",
-        # expand(f"{OUTPUT}fastqc/{{cid}}.raw_fastqc.html", cid=cell_ids),
-        # expand(f"{OUTPUT}porechop/{{cid}}.raw.fastq", cid=cell_ids),
-        # expand(f"{OUTPUT}reports/porechop_summary/{{cid}}.porechop_summary.txt", cid=cell_ids),
-        # expand(f"{OUTPUT}quality_summary/{{cid}}.quality_summary.parquet", cid=cell_ids),
+        OUTPUT + "reports/mutliqc/fastqc.html",
+        OUTPUT + "reports/seqkit.porechop.report.txt",
+        expand(OUTPUT  + "fastqc/{cid}.raw_fastqc.html", cid=cell_ids),
+        expand(OUTPUT  + "porechop/{cid}.raw.fastq", cid=cell_ids),
+        expand(OUTPUT  + "reports/porechop_summary/{cid}.porechop_summary.txt", cid=cell_ids),
 
 
-rule copy_pod5:
+rule copy_fastq:
     input:
         fastq_df['file_path'].to_list()
     output:
@@ -58,15 +57,6 @@ rule get_barcode_file:
         """cp {input} {output}"""
 
 
-rule get_barcode_fasta:
-    input:
-        OUTPUT + "resources/barcodes.txt"
-    output:
-        OUTPUT + "resources/barcodes.fasta"
-    shell:
-        """python scripts/barcode_fasta.py {input} {output}"""
-
-
 rule porechop:
     input:
         OUTPUT + "fastq/{cid}.raw.fastq",
@@ -75,13 +65,15 @@ rule porechop:
         stats=OUTPUT + "porechop_stats/{cid}.porechop_stats.txt",
     threads:
         config['threads'] // 2
+    conda:
+        "porechop"
     shell:
         """porechop -i {input} -t {threads} -v 3 -o {output.fastq} > {output.stats}"""
 
 
 rule porechop_multiqc:
     input:
-        expand(f"{OUTPUT}porechop_stats/{{cid}}.porechop_stats.txt", cid=cell_ids),
+        expand(OUTPUT + "porechop_stats/{cid}.porechop_stats.txt", cid=cell_ids),
     output:
         OUTPUT + "reports/mutliqc/porechop.html",
         directory(OUTPUT + "reports/mutliqc/porechop_data"),
@@ -110,7 +102,7 @@ rule fastqc_report:
 
 rule fastqc_multiqc:
     input:
-        expand(f"{OUTPUT}fastqc/{{cid}}.raw_fastqc.html", cid=cell_ids),
+        expand(OUTPUT + "fastqc/{cid}.raw_fastqc.html", cid=cell_ids),
     output:
         OUTPUT + "reports/mutliqc/fastqc.html",
         directory(OUTPUT + "reports/mutliqc/fastqc_data"),
@@ -131,9 +123,10 @@ rule fastq_report:
         cid='|'.join([re.escape(x) for x in set(cell_ids)]),
     threads:
         config['threads'] // 4
+    conda:
+        "porechop"
     shell:
         """seqkit stats -a -b -j {threads} {input} -o {output}"""
-
 
 
 rule porechop_report:
@@ -145,6 +138,8 @@ rule porechop_report:
         cid='|'.join([re.escape(x) for x in set(cell_ids)]),
     threads:
         config['threads'] // 4
+    conda:
+        "porechop"
     shell:
         """seqkit stats -a -b -j {threads} {input} -o {output}"""
 
@@ -159,46 +154,3 @@ rule porechop_summary:
     shell:
         """cat {input} | grep 'reads' | grep 'adapters' | grep -v 'containing' > {output}"""
 
-
-rule quality_files:
-    input:
-        OUTPUT + "fastq/{cid}.raw.fastq"
-    output:
-        OUTPUT + "base_qualities/{cid}.base_qualities.parquet",
-    wildcard_constraints:
-        cid='|'.join([re.escape(x) for x in set(cell_ids)]),
-    shell:
-        """python scripts/get_base_qualities.py {input} {output}"""
-
-
-rule summarize_quality_files:
-    input:
-        OUTPUT + "base_qualities/{cid}.base_qualities.parquet",
-    output:
-        OUTPUT + "quality_summary/{cid}.quality_summary.parquet",
-    wildcard_constraints:
-        cid='|'.join([re.escape(x) for x in set(cell_ids)]),
-    shell:
-        """python scripts/summarize_base_qualities.py {input} {output}"""
-
-
-rule quality_files_porechop:
-    input:
-        OUTPUT + "porechop/{cid}.raw.fastq"
-    output:
-        OUTPUT + "base_qualities_porechop/{cid}.base_qualities.parquet",
-    wildcard_constraints:
-        cid='|'.join([re.escape(x) for x in set(cell_ids)]),
-    shell:
-        """python scripts/get_base_qualities.py {input} {output}"""
-
-
-rule summarize_quality_files_porechop:
-    input:
-        OUTPUT + "base_qualities_porechop/{cid}.base_qualities.parquet",
-    output:
-        OUTPUT + "quality_summary_porechop/{cid}.quality_summary.parquet",
-    wildcard_constraints:
-        cid='|'.join([re.escape(x) for x in set(cell_ids)]),
-    shell:
-        """python scripts/summarize_base_qualities.py {input} {output}"""

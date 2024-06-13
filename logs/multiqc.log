@@ -1,0 +1,51 @@
+
+  /// MultiQC 🔍 | v1.21
+
+[2024-06-12 18:59:47,488] multiqc                                            [DEBUG  ]  This is MultiQC v1.21
+[2024-06-12 18:59:47,490] multiqc                                            [DEBUG  ]  Command used: /home/cstansbu/git_repositories/ont_adapter_clean_up/.snakemake/conda/f06be501d7fdbbdbb4fc7a09e45d1ac2_/bin/multiqc --verbose --data-dir --outdir /scratch/indikar_root/indikar1/shared_data/adapter_clean_up/reports/mutliqc --filename fastqc /scratch/indikar_root/indikar1/shared_data/adapter_clean_up/fastqc
+[2024-06-12 18:59:49,025] multiqc                                            [WARNING]  MultiQC Version v1.22.2 now available!
+[2024-06-12 18:59:49,026] multiqc                                            [DEBUG  ]  Latest MultiQC version is v1.22.2, released 2024-05-31
+[2024-06-12 18:59:49,026] multiqc                                            [DEBUG  ]  Working dir : /home/cstansbu/git_repositories/ont_adapter_clean_up
+[2024-06-12 18:59:49,026] multiqc                                            [DEBUG  ]  Template    : default
+[2024-06-12 18:59:49,026] multiqc                                            [DEBUG  ]  Running Python 3.11.9 | packaged by conda-forge | (main, Apr 19 2024, 18:36:13) [GCC 12.3.0]
+[2024-06-12 18:59:49,026] multiqc                                            [DEBUG  ]  Analysing modules: custom_content, ccs, ngsderive, purple, conpair, isoseq, lima, peddy, somalier, methylqa, mosdepth, phantompeakqualtools, qualimap, bamdst, preseq, hifiasm, quast, qorts, rna_seqc, rockhopper, rsem, rseqc, busco, bustools, goleft_indexcov, gffcompare, disambiguate, supernova, deeptools, sargasso, verifybamid, mirtrace, happy, mirtop, sambamba, gopeaks, homer, hops, macs2, theta2, snpeff, gatk, htseq, bcftools, featureCounts, fgbio, dragen, dragen_fastqc, dedup, pbmarkdup, damageprofiler, mapdamage, biobambam2, jcvi, mtnucratio, picard, vep, bakta, prokka, qc3C, nanostat, samblaster, samtools, sexdeterrmine, seqera_cli, eigenstratdatabasetools, bamtools, jellyfish, vcftools, longranger, stacks, varscan2, snippy, umitools, truvari, megahit, bbmap, bismark, biscuit, diamond, hicexplorer, hicup, hicpro, salmon, kallisto, slamdunk, star, hisat2, tophat, bowtie2, bowtie1, cellranger, snpsplit, odgi, pangolin, nextclade, freyja, humid, kat, leehom, librarian, nonpareil, adapterRemoval, bbduk, clipandmerge, cutadapt, flexbar, sourmash, kaiju, bracken, kraken, malt, motus, trimmomatic, sickle, skewer, sortmerna, biobloomtools, fastq_screen, afterqc, fastp, fastqc, filtlong, prinseqplusplus, pychopper, porechop, pycoqc, minionqc, anglerfish, multivcfanalyzer, clusterflow, checkqc, bcl2fastq, bclconvert, interop, ivar, flash, seqyclean, optitype, whatshap, spaceranger, xenome, xengsort, metaphlan, seqwho
+[2024-06-12 18:59:49,026] multiqc                                            [DEBUG  ]  Using temporary directory for creating report: /tmp/tmp8m5n43p3
+[2024-06-12 18:59:49,036] multiqc                                            [INFO   ]  Search path : /scratch/indikar_root/indikar1/shared_data/adapter_clean_up/fastqc
+|         searching | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 744/744  
+[2024-06-12 19:00:04,994] multiqc                                            [DEBUG  ]  Summary of files that were skipped by the search: [skipped_module_specific_max_filesize: 4836] // [skipped_no_match: 372]
+[2024-06-12 19:00:05,547] multiqc                                            [DEBUG  ]  No samples found: custom_content
+[2024-06-12 19:00:18,919] multiqc.modules.fastqc.fastqc                      [INFO   ]  Found 372 reports
+[2024-06-12 19:00:18,923] multiqc.utils.util_functions                       [DEBUG  ]  Wrote data file multiqc_fastqc.txt
+[2024-06-12 19:00:20,295] multiqc.plots.plotly.heatmap                       [DEBUG  ]  Resizing from 450x4092 to fit the maximum size 900x500
+[2024-06-12 19:00:20,295] multiqc.plots.plotly.heatmap                       [DEBUG  ]  Heatmap size: 900x499, px per element: 90.00x1.34
+[2024-06-12 19:00:20,315] multiqc.utils.software_versions                    [DEBUG  ]  Reading software versions from config.software_versions
+[2024-06-12 19:00:20,317] multiqc.utils.util_functions                       [DEBUG  ]  Wrote data file multiqc_software_versions.txt
+[2024-06-12 19:00:20,321] multiqc.plots.plotly.violin                        [DEBUG  ]  Violin for '% Dups': sample number is 372 > True. Will add interactive points only for the outlier values.
+[2024-06-12 19:00:20,321] multiqc.plots.plotly.violin                        [DEBUG  ]  Violin for '% Dups': found 2 outliers
+[2024-06-12 19:00:20,322] multiqc.plots.plotly.violin                        [DEBUG  ]  Violin for '% GC': sample number is 372 > True. Will add interactive points only for the outlier values.
+[2024-06-12 19:00:20,322] multiqc.plots.plotly.violin                        [DEBUG  ]  No outliers found with Z-score cutoff 2.0, trying a lower cutoff: 1.8, metric: '% GC'
+[2024-06-12 19:00:20,322] multiqc.plots.plotly.violin                        [DEBUG  ]  No outliers found with Z-score cutoff 1.8, trying a lower cutoff: 1.6, metric: '% GC'
+[2024-06-12 19:00:20,322] multiqc.plots.plotly.violin                        [DEBUG  ]  No outliers found with Z-score cutoff 1.6, trying a lower cutoff: 1.4, metric: '% GC'
+[2024-06-12 19:00:20,322] multiqc.plots.plotly.violin                        [DEBUG  ]  No outliers found with Z-score cutoff 1.4, trying a lower cutoff: 1.2, metric: '% GC'
+[2024-06-12 19:00:20,322] multiqc.plots.plotly.violin                        [DEBUG  ]  No outliers found with Z-score cutoff 1.2, trying a lower cutoff: 1.0, metric: '% GC'
+[2024-06-12 19:00:20,322] multiqc.plots.plotly.violin                        [DEBUG  ]  Violin for '% GC': found 10 outliers
+[2024-06-12 19:00:20,323] multiqc.plots.plotly.violin                        [DEBUG  ]  Violin for 'Average Read Length': sample number is 372 > True. Will add interactive points only for the outlier values.
+[2024-06-12 19:00:20,323] multiqc.plots.plotly.violin                        [DEBUG  ]  Violin for 'Average Read Length': found 14 outliers
+[2024-06-12 19:00:20,323] multiqc.plots.plotly.violin                        [DEBUG  ]  Violin for 'Median Read Length': sample number is 372 > True. Will add interactive points only for the outlier values.
+[2024-06-12 19:00:20,324] multiqc.plots.plotly.violin                        [DEBUG  ]  Violin for 'Median Read Length': found 8 outliers
+[2024-06-12 19:00:20,324] multiqc.plots.plotly.violin                        [DEBUG  ]  Violin for '% Failed': sample number is 372 > True. Will add interactive points only for the outlier values.
+[2024-06-12 19:00:20,324] multiqc.plots.plotly.violin                        [DEBUG  ]  No outliers found with Z-score cutoff 2.0, trying a lower cutoff: 1.8, metric: '% Failed'
+[2024-06-12 19:00:20,324] multiqc.plots.plotly.violin                        [DEBUG  ]  No outliers found with Z-score cutoff 1.8, trying a lower cutoff: 1.6, metric: '% Failed'
+[2024-06-12 19:00:20,324] multiqc.plots.plotly.violin                        [DEBUG  ]  No outliers found with Z-score cutoff 1.6, trying a lower cutoff: 1.4, metric: '% Failed'
+[2024-06-12 19:00:20,324] multiqc.plots.plotly.violin                        [DEBUG  ]  No outliers found with Z-score cutoff 1.4, trying a lower cutoff: 1.2, metric: '% Failed'
+[2024-06-12 19:00:20,324] multiqc.plots.plotly.violin                        [DEBUG  ]  Violin for '% Failed': found 90 outliers
+[2024-06-12 19:00:20,325] multiqc.plots.plotly.violin                        [DEBUG  ]  Violin for 'M Seqs': sample number is 372 > True. Will add interactive points only for the outlier values.
+[2024-06-12 19:00:20,325] multiqc.plots.plotly.violin                        [DEBUG  ]  Violin for 'M Seqs': found 8 outliers
+[2024-06-12 19:00:20,592] multiqc.utils.util_functions                       [DEBUG  ]  Wrote data file multiqc_general_stats.txt
+[2024-06-12 19:00:20,594] multiqc                                            [DEBUG  ]  Compressing plot data
+[2024-06-12 19:00:24,511] multiqc.utils.util_functions                       [DEBUG  ]  Wrote data file multiqc_data.json
+[2024-06-12 19:00:24,515] multiqc                                            [INFO   ]  Report      : ../../../../gpfs/accounts/indikar_root/indikar1/shared_data/adapter_clean_up/reports/mutliqc/fastqc.html
+[2024-06-12 19:00:24,515] multiqc                                            [INFO   ]  Data        : ../../../../gpfs/accounts/indikar_root/indikar1/shared_data/adapter_clean_up/reports/mutliqc/fastqc_data
+[2024-06-12 19:00:24,515] multiqc                                            [DEBUG  ]  Moving data file from '/tmp/tmp8m5n43p3/multiqc_data' to '/gpfs/accounts/indikar_root/indikar1/shared_data/adapter_clean_up/reports/mutliqc/fastqc_data'
+[2024-06-12 19:00:24,552] multiqc                                            [DEBUG  ]  Full report path: /gpfs/accounts/indikar_root/indikar1/shared_data/adapter_clean_up/reports/mutliqc/fastqc.html
+[2024-06-12 19:00:25,751] multiqc                                            [INFO   ]  MultiQC complete
