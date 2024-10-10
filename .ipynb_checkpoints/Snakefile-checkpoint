@@ -28,18 +28,23 @@ rule all:
     input:
         expand(OUTPUT + "fastq/{cid}.raw.fastq", cid=cell_ids),
         OUTPUT + "reports/seqkit.report.txt",
-        OUTPUT + "reports/mutliqc/fastqc.html",
         OUTPUT + "reports/seqkit.porechop.report.txt",
-        expand(OUTPUT  + "fastqc/{cid}.raw_fastqc.html", cid=cell_ids),
         expand(OUTPUT  + "porechop/{cid}.raw.fastq", cid=cell_ids),
         expand(OUTPUT  + "reports/porechop_summary/{cid}.porechop_summary.txt", cid=cell_ids),
+        OUTPUT + "reports/adapter_summary.csv",
+        
+        
+rule fastqc:
+    input:
+        expand(OUTPUT  + "fastqc/{cid}.raw_fastqc.html", cid=cell_ids),
+        OUTPUT + "reports/mutliqc/fastqc.html",
 
 
 rule copy_fastq:
     input:
         fastq_df['file_path'].to_list()
     output:
-        protected(fastq_df['out_path'].to_list()),
+        fastq_df['out_path'].to_list(),
     run:
         from shutil import copyfile
         for i, fpath in enumerate(input):
@@ -154,3 +159,27 @@ rule porechop_summary:
     shell:
         """cat {input} | grep 'reads' | grep 'adapters' | grep -v 'containing' > {output}"""
 
+
+rule adapter_content_summary:
+    input:
+        OUTPUT + "porechop_stats/{cid}.porechop_stats.txt",
+    output:
+        OUTPUT + "reports/adapter_content/{cid}.txt"
+    wildcard_constraints:
+        cid='|'.join([re.escape(x) for x in set(cell_ids)]),
+    shell:
+        """cat {input} | grep 'read coords' > {output}"""
+
+
+
+rule adapter_summary:
+    input:
+        expand(OUTPUT + "reports/adapter_content/{cid}.txt", cid=cell_ids),
+    output:
+        OUTPUT + "reports/adapter_summary.csv"
+    wildcard_constraints:
+        cid='|'.join([re.escape(x) for x in set(cell_ids)]),
+    conda:
+        "bioinf"
+    shell:
+        """python scripts/compile_adapter_summary.py {output} {input}"""

@@ -1,5 +1,5 @@
-output_path: "/scratch/indikar_root/indikar1/shared_data/adapter_clean_up/"
-fastq_paths: "config/fastq_paths.txt"
+output_path: "/scratch/indikar_root/indikar1/shared_data/ont_12_bc/"
+fastq_paths: "config/ont_12_bc.txt"
 dorado_min_qscore: 7
 fastqc_adapters: "config/adapter_list.txt"
 fastqc_contaminants: "config/contaminant_list.txt"

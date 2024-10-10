@@ -1,0 +1,13 @@
+cell_id,file_path
+b12,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/ont_12_barcode/merged/barcode12.fastq
+b10,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/ont_12_barcode/merged/barcode10.fastq
+b05,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/ont_12_barcode/merged/barcode05.fastq
+b07,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/ont_12_barcode/merged/barcode07.fastq
+b09,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/ont_12_barcode/merged/barcode09.fastq
+b03,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/ont_12_barcode/merged/barcode03.fastq
+b04,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/ont_12_barcode/merged/barcode04.fastq
+b01,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/ont_12_barcode/merged/barcode01.fastq
+b06,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/ont_12_barcode/merged/barcode06.fastq
+b11,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/ont_12_barcode/merged/barcode11.fastq
+b08,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/ont_12_barcode/merged/barcode08.fastq
+b02,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/ont_12_barcode/merged/barcode02.fastq

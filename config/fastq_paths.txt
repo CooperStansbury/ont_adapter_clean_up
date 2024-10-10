@@ -371,3 +371,11 @@ o2b93,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/p2/scPC96o_2/merg
 o2b94,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/p2/scPC96o_2/merged_fastq/barcode94.fastq
 o2b95,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/p2/scPC96o_2/merged_fastq/barcode95.fastq
 o2b96,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/p2/scPC96o_2/merged_fastq/barcode96.fastq
+o3b73,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/p2/scPC96o_3/merged_fastq/barcode73.fastq
+o3b47,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/p2/scPC96o_3/merged_fastq/barcode47.fastq
+o3b25,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/p2/scPC96o_3/merged_fastq/barcode25.fastq
+o3b14,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/p2/scPC96o_3/merged_fastq/barcode14.fastq
+o1b73,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/p2/scPC96o_1/merged_fastq/barcode73.fastq
+o1b47,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/p2/scPC96o_1/merged_fastq/barcode47.fastq
+o1b25,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/p2/scPC96o_1/merged_fastq/barcode25.fastq
+o1b14,/nfs/turbo/umms-indikar/shared/projects/poreC/data/fastq/p2/scPC96o_1/merged_fastq/barcode14.fastq
